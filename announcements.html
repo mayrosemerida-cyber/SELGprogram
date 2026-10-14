@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Announcements & Schedules · Romblon East Central School</title>
+  <meta name="description" content="Official website of Romblon East Central School, Barangay Capaclan, Romblon, Romblon. DepEd School ID 111386.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#14305c">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="seal" data-s="schoolShort">REC</span>
+        <span class="brand-name"><span data-s="schoolName">Romblon East Central School</span><small data-s="division">Schools Division of Romblon</small></span>
+      </a>
+      <button class="menu-btn" aria-expanded="false" aria-label="Open menu">☰ Menu</button>
+      <nav class="nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="announcements.html" aria-current="page">Announcements</a></li>
+          <li><a href="organization.html">Org Chart</a></li>
+          <li><a href="sections.html">Sections</a></li>
+          <li><a href="selg.html">SELG</a></li>
+          <li><a href="newspaper.html">Taga-Silangan</a></li>
+          <li><a href="portal.html">Learner Portal</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="eyebrow">Stay updated</span>
+        <h1>Announcements &amp; Schedules</h1>
+        <p>Contest winners, examination schedules and official reminders for learners and parents.</p>
+      </div>
+    </section>
+    <section class="section" id="calendar">
+      <div class="wrap" style="max-width:980px">
+        <div class="center"><span class="eyebrow">School Calendar · SY 2026–2027</span><h2>School events &amp; activities</h2>
+          <p class="lead" style="margin:0 auto 20px">Based on the DepEd school calendar (DepEd Order No. 009, s. 2026), with our school's own activities. Click a day to see what's on.</p></div>
+        <div id="school-calendar" class="school-cal card"><p class="loading">Loading calendar…</p></div>
+      </div>
+    </section>
+    <section class="section alt">
+      <div class="wrap" style="max-width:880px">
+        <div class="center"><span class="eyebrow">Announcements</span><h2>Latest announcements</h2></div>
+        <nav class="sections-nav" id="ann-cats" aria-label="Filter"></nav>
+        <div id="ann-list"><p class="loading">Loading announcements…</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h3 data-s="schoolName">Romblon East Central School</h3>
+          <p><span data-s="address">Barangay Capaclan, Romblon, Romblon</span><br>School ID: <span data-s="schoolId">111386</span></p>
+          <p>✉️ <a href="mailto:111386@deped.gov.ph" data-s-href="email"><span data-s="email">111386@deped.gov.ph</span></a></p>
+        </div>
+        <div>
+          <h3>Quick links</h3>
+          <ul>
+            <li><a href="about.html">About the School</a></li>
+            <li><a href="announcements.html">Announcements &amp; Schedules</a></li>
+            <li><a href="portal.html">Learner Portal</a></li>
+            <li><a href="newspaper.html">Taga-Silangan</a></li>
+            <li><a href="resources.html">Resources</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Sign in</h3>
+          <ul>
+            <li><a href="portal.html">Learners</a></li>
+            <li><a href="admin.html">Teachers &amp; Staff</a></li>
+            <li><a href="newsroom.html">Taga-Silangan Newsroom</a></li>
+            <li><a href="privacy.html">Privacy Notice</a></li>
+            <li><a href="https://www.deped.gov.ph/" target="_blank" rel="noopener">DepEd Philippines</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">© <span class="year"></span> <span data-s="schoolName">Romblon East Central School</span> · DepEd School ID 111386 · <a href="privacy.html">Privacy Notice</a></div>
+    </div>
+  </footer>
+  <script src="settings.js"></script>
+  <script src="site.js"></script>
+  <script src="calendar.js"></script>
+  <script>
+    schoolCalendar(document.getElementById("school-calendar"));
+    const ANN_CATS = ["All", "Contest Winners", "Examination Schedule", "School Events", "Holiday / No Classes", "Enrollment", "Parents & Guardians", "General"];
+    let annAll = [];
+    function showAnn(cat) {
+      document.querySelectorAll("#ann-cats a").forEach((a) => a.classList.toggle("on", a.dataset.cat === cat));
+      const list = cat === "All" ? annAll : annAll.filter((p) => p.category === cat);
+      document.getElementById("ann-list").innerHTML = list.length ? list.map(announcementHTML).join("") : `<p class="empty">Nothing here yet.</p>`;
+    }
+    document.getElementById("ann-cats").innerHTML = ANN_CATS.map((c) => `<a href="#" data-cat="${c}">${c}</a>`).join("");
+    document.getElementById("ann-cats").addEventListener("click", (e) => { if (e.target.dataset.cat) { e.preventDefault(); showAnn(e.target.dataset.cat); } });
+    getPosts("announcement").then((items) => { annAll = items; showAnn(new URLSearchParams(location.search).get("cat") || "All"); })
+      .catch(() => failMsg(document.getElementById("ann-list")));
+  </script>
+</body>
+</html>
